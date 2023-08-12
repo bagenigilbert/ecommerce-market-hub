@@ -1,32 +1,37 @@
-// Importing necessary tools from the React library
 import React, { useState, useEffect } from 'react';
 
 function FeaturedProducts() {
-  // Creating state variables to hold featured products
   const [featuredProducts, setFeaturedProducts] = useState([]);
-  
-  // Using useEffect to fetch featured products
+
   useEffect(() => {
     fetch('https://dummyjson.com/products')
       .then(response => response.json())
-      .then(products => {
-        setFeaturedProducts(products.slice(0, 5));
+      .then(data => {
+        console.log(data); // Log the response data
+        if (Array.isArray(data.products)) {
+          setFeaturedProducts(data.products.slice(0, 30));
+        } else {
+          console.error('API response does not contain an array of products.');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching products:', error);
       });
   }, []);
-  
-  return(
-    <section id='featuredProducts'>
-        <h2>FeaturedProducts</h2>
-        <div id='productCarousel'>
-           {featuredProducts.map(product =>(
-            <div key={product.id} className='featured-product'>
-                <img src={product.image} alt={product.title} />
-                <h3>{product.title}</h3>
-                <p>{product.price}</p>
-            </div>
-           ))} 
-        </div>
+
+  return (
+    <section id="featuredProducts">
+      <h2>Featured Products</h2>
+      <div id="productCarousel">
+        {featuredProducts.map(product => (
+          <div key={product.id} className="featured-product">
+            <h3>{product.title}</h3>
+            <p>{product.price}</p>
+          </div>
+        ))}
+      </div>
     </section>
-  )
+  );
 }
+
 export default FeaturedProducts;

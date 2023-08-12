@@ -1,29 +1,34 @@
-// Importing necessary tools from the React library
-import  react, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import CategoryItem from './CategoryItem'; // Make sure the path is correct
 
-function Categories(){
-    // Creating state variables to hold categories
-const [categories, setFeaturedProducts] = useEffect([]);
+function Categories() {
+  const [categories, setCategories] = useState([]);
 
-// Fetching data from the API
-  useEffect(()=>{
- fetch( 'https://dummyjson.com/products/categories')
- .then(res => res.json())
- .then(categories =>{
-    setFeaturedProducts(categories);
- });
-  },[]);
+  useEffect(() => {
+    fetch('https://dummyjson.com/products/categories')
+      .then(response => response.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setCategories(data);
+        } else {
+          console.error('API response does not contain an array of categories.');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching categories:', error);
+      });
+  }, []);
 
-  return(
-    <section id='categories'>
-        <h2>Categories</h2>
-        <ul id='categoryList'>
-        {categories.map(category =>(
-            <li key={category.id}>{category}</li>
+  return (
+    <section id="categories">
+      <h2>Categories</h2>
+      <ul id="categoryList">
+        {categories.map(category => (
+          <CategoryItem key={category} category={category} />
         ))}
-        </ul>
+      </ul>
     </section>
-  )
-
+  );
 }
+
 export default Categories;
