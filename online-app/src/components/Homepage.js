@@ -25,5 +25,5 @@ setFeaturedProducts(products.slice(0, 5));
 // this effect will run only once after component mount
 }, []);
 
-
-}
+  // Returning JSX to render the component's UI
+ 
