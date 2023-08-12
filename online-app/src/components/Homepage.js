@@ -7,7 +7,7 @@ function HomePage(){
     const [featuredProduct, setFeaturedProducts] = useState([])
     const [categories, setCategories] = useState([])
     
- //  using useEffect to perform actions after component is created
+ //  u'https://dummyjson.com/products/categories'sing useEffect to perform actions after component is created
   useEffect(() =>{
     fetch('https://dummyjson.com/products')
     .then(response => response.json())
@@ -15,5 +15,15 @@ function HomePage(){
 setFeaturedProducts(products.slice(0, 5));
 });
 
-// fetc
-    }
+// fetching data for products categories from the API
+
+   fetch('https://dummyjson.com/products/categories')
+   .then(response=>response.json())
+   .then(categories=>{
+    setCategories(categories);
+});
+// this effect will run only once after component mount
+}, []);
+
+
+}
